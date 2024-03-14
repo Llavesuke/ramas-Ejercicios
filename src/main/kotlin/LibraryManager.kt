@@ -15,6 +15,7 @@ class LibraryManager {
      * @param book The book to be added
      */
     fun addBookToCatalog(book: Book){
+        book.ID = LibraryUtils.generateUniqueIdentifier()
         bookCatalog.add(book)
     }
 

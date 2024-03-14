@@ -52,7 +52,7 @@ class Utils {
          * @param list The list to show his elements
          */
         fun showList(list: List<Book>){
-            list.forEach { println("${it.title}, ${it.author}")}
+            list.forEach { println("${it.title}, ${it.author}, ${it.ID}")}
         }
     }
 }
