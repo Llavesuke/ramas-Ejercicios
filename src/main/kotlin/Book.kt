@@ -18,28 +18,27 @@ class Book(private var ID: UUID? = null,
                 private val author: String,
                 private val yearOfRelease: Int,
                 private val topic: String,
-                private var state: BookState = BookState.AVAIlABLE){
+                private var state: State = State.AVAIlABLE): LibraryElement(ID, title, author), Prestable{
 
-    fun getId(): UUID?{
-        return this.ID
-    }
-
-    fun getTitle(): String{
-        return this.title
-    }
-    fun getBookState(): BookState{
-        return this.state
-    }
-
-    fun modifyState(newState: BookState){
-        this.state = newState
-    }
-
-    fun modifyID(newID: UUID){
-        this.ID = newID
+    init {
+        ID = LibraryUtils.generateUniqueIdentifier()
     }
     override fun toString(): String {
         return "ID: ${this.ID}\n -Title: ${this.title}\n -Author: ${this.author}\n -Topic: ${this.topic}\n" +
                 " -Book State: ${this.state}"
+    }
+
+    override fun lend(user: User) {
+        if (state == State.AVAIlABLE) {
+            state = State.BORROWED
+            user.borrowBook(this)
+        }
+    }
+
+    override fun returnElement(user: User) {
+        if (state == State.BORROWED) {
+            state = State.AVAIlABLE
+            user.returnBook(this)
+        }
     }
 }

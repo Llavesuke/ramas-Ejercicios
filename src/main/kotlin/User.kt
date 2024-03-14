@@ -10,7 +10,7 @@ import java.util.UUID
  * @property borrowedList The list of books that the user borrow
  */
 class User(private val ID: UUID, private val name: String) {
-    private val borrowedList = mutableListOf<Book>()
+    private val borrowedList = mutableListOf<LibraryElement>()
 
     /**
      * Borrow a book from the library
@@ -18,8 +18,8 @@ class User(private val ID: UUID, private val name: String) {
      * @param book The book that is borrowing
      *
      */
-    fun borrowBook(book: Book){
-        borrowedList.add(book)
+    fun borrowBook(libraryElement: LibraryElement){
+        borrowedList.add(libraryElement)
     }
 
     /**
@@ -28,8 +28,8 @@ class User(private val ID: UUID, private val name: String) {
      * @param book The book is returning
      *
      */
-    fun returnBook(book: Book){
-        borrowedList.remove(book)
+    fun returnBook(libraryElement: LibraryElement){
+        borrowedList.remove(libraryElement)
     }
 
     /**
@@ -44,7 +44,7 @@ class User(private val ID: UUID, private val name: String) {
      *
      * @return The user borrowed list
      */
-    fun getBorrowedList(): List<Book>{
+    fun getBorrowedList(): List<LibraryElement>{
         return borrowedList
     }
 

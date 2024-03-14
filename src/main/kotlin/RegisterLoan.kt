@@ -6,9 +6,9 @@ package org.pebiblioteca
  * @property currentLoans The users that are currently borrowing books
  * @property loanRecords All the loans made in the library
  */
-class RegisterLoan {
-    private val currentLoans = mutableMapOf<User,MutableList<Book>>()
-    private val loanRecords = mutableMapOf<User,MutableList<Book>>()
+class RegisterLoan: IRegisterLoan {
+    private val currentLoans = mutableMapOf<User,MutableList<LibraryElement>>()
+    private val loanRecords = mutableMapOf<User,MutableList<LibraryElement>>()
 
     /**
      * Register a new loan in the system
@@ -17,20 +17,19 @@ class RegisterLoan {
      * @param book The borrowed book
      *
      */
-    fun registerLoan(user: User, book: Book){
-        user.borrowBook(book)
+    override fun registerLoan(user: User, element: LibraryElement){
 
         if (user !in currentLoans){
-            currentLoans[user] = mutableListOf(book)
+            currentLoans[user] = mutableListOf(element)
 
         } else {
-            currentLoans[user]!!.add(book)
+            currentLoans[user]!!.add(element)
         }
 
         if (user !in loanRecords){
-            loanRecords[user] = mutableListOf(book)
+            loanRecords[user] = mutableListOf(element)
         } else{
-            loanRecords[user]!!.add(book)
+            loanRecords[user]!!.add(element)
         }
     }
 
@@ -41,12 +40,11 @@ class RegisterLoan {
      * @param book The borrowed book
      *
      */
-    fun returnBook(user: User,book: Book){
+    override fun returnBook(user: User,element: LibraryElement){
         val borrowedList = user.getBorrowedList()
-        when (book){
+        when (element){
             in borrowedList -> {
-                user.returnBook(book)
-                currentLoans[user]!!.remove(book)
+                currentLoans[user]!!.remove(element)
             }
             !in borrowedList -> {
                 Utils.showMessage("You don't have this book!")
@@ -60,13 +58,12 @@ class RegisterLoan {
      * @param book The book to filter in the loan records
      * @return A list with users
      */
-    fun checkBooksLoan(book: Book): List<User>? {
-        return if (loanRecords.values.any { it.contains(book)} ){
-            loanRecords.filterValues { it.contains(book) }.keys.toList()
+    override fun checkBooksLoan(libraryElement: LibraryElement): List<User>? {
+        return if (loanRecords.values.any { it.contains(libraryElement)} ){
+            loanRecords.filterValues { it.contains(libraryElement) }.keys.toList()
         } else {
             null
         }
-
     }
 
     /**
@@ -76,7 +73,7 @@ class RegisterLoan {
      *
      * @return A list with the books loaned by the user. If the user is not find return a empty list
      */
-    fun checkUserLoan(user: User): List<Book>? {
+    override fun checkUserLoan(user: User): List<LibraryElement>? {
         return loanRecords[user]
     }
 }
