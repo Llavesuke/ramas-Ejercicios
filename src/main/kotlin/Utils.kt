@@ -51,8 +51,14 @@ class Utils {
          *
          * @param list The list to show his elements
          */
-        fun showList(list: List<Book>){
-            list.forEach { println("${it.title}, ${it.author}, ${it.ID}")}
+        fun showList(list: List<Any>?){
+            if (list == null){
+                Utils.showMessage("Lista vacia")
+            } else {
+                list.forEach { println(it)}
+            }
+
+
         }
     }
 }

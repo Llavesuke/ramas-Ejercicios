@@ -11,10 +11,35 @@ import java.util.UUID
  * @property yearOfRelease Year of release of the book
  * @property Topic The topic of the book
  * @property State If the book is borrowed or not
+ *
  */
-data class Book(var ID: UUID? = null,
-                val title: String,
-                val author: String,
-                val yearOfRelease: Int,
-                val topic: String,
-                var state: BookState = BookState.AVAIlABLE)
+class Book(private var ID: UUID? = null,
+                private val title: String,
+                private val author: String,
+                private val yearOfRelease: Int,
+                private val topic: String,
+                private var state: BookState = BookState.AVAIlABLE){
+
+    fun getId(): UUID?{
+        return this.ID
+    }
+
+    fun getTitle(): String{
+        return this.title
+    }
+    fun getBookState(): BookState{
+        return this.state
+    }
+
+    fun modifyState(newState: BookState){
+        this.state = newState
+    }
+
+    fun modifyID(newID: UUID){
+        this.ID = newID
+    }
+    override fun toString(): String {
+        return "ID: ${this.ID}\n -Title: ${this.title}\n -Author: ${this.author}\n -Topic: ${this.topic}\n" +
+                " -Book State: ${this.state}"
+    }
+}
